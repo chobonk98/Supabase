@@ -1,0 +1,17 @@
+name: Ping Otomatis Supabase 4 Hari Sekali
+
+on:
+  schedule:
+    # Berjalan otomatis setiap 4 hari sekali pada pukul 00:00 UTC
+    - cron: '0 0 */4 * *'
+  workflow_dispatch: # Tombol manual di halaman GitHub Actions jika Anda ingin tes langsung
+
+jobs:
+  ping_database:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kirim Request ke Supabase
+        run: |
+          curl -i -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/ping_status?select=*" \
+          -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
